@@ -24,6 +24,9 @@
       --accent-text: #92400e;
       --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
       --code-bg: #f1f5f9;
+      --badge-co1: #4338ca;
+      --badge-co2: #0369a1;
+      --badge-co3: #b45309;
     }
 
     [data-theme="dark"] {
@@ -45,6 +48,9 @@
       --accent-text: #fde68a;
       --card-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
       --code-bg: #1a2337;
+      --badge-co1: #818cf8;
+      --badge-co2: #38bdf8;
+      --badge-co3: #fbbf24;
     }
 
     * {
@@ -129,8 +135,8 @@
     .tab-btn {
       background: none;
       border: none;
-      padding: 0.6rem 1.2rem;
-      font-size: 0.92rem;
+      padding: 0.6rem 1.1rem;
+      font-size: 0.9rem;
       font-weight: 600;
       color: var(--text-muted);
       cursor: pointer;
@@ -147,6 +153,16 @@
       color: #ffffff;
     }
 
+    .tab-btn.highlight {
+      border: 1px solid var(--primary);
+      color: var(--primary);
+    }
+
+    .tab-btn.highlight.active {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
     .tab-content {
       display: none;
     }
@@ -155,6 +171,112 @@
       display: block;
     }
 
+    /* Grand Mock Test Dashboard Header */
+    .grand-dashboard {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin-bottom: 1.75rem;
+      box-shadow: var(--card-shadow);
+    }
+
+    .dashboard-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .dashboard-title h2 {
+      font-size: 1.35rem;
+      color: var(--primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .dashboard-title p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .stat-pill {
+      background: var(--code-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      text-align: center;
+    }
+
+    .stat-pill .label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+
+    .stat-pill .value {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .stat-pill.main-score .value {
+      color: var(--primary);
+    }
+
+    .progress-bar-container {
+      background: var(--code-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 9999px;
+      height: 12px;
+      overflow: hidden;
+      margin-bottom: 0.75rem;
+      position: relative;
+    }
+
+    .progress-fill {
+      background: linear-gradient(90deg, var(--primary), #10b981);
+      height: 100%;
+      width: 0%;
+      border-radius: 9999px;
+      transition: width 0.3s ease;
+    }
+
+    .chapter-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+    }
+
+    .chapter-tag {
+      padding: 0.3rem 0.7rem;
+      border-radius: 6px;
+      background: var(--code-bg);
+      border: 1px solid var(--border-color);
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .chapter-tag span {
+      color: var(--text-main);
+      font-weight: 700;
+    }
+
+    /* Score banner for individual tabs */
     .score-banner {
       background: var(--card-bg);
       border: 1px solid var(--border-color);
@@ -210,6 +332,8 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 0.8rem;
+      gap: 0.5rem;
+      flex-wrap: wrap;
     }
 
     .badge {
@@ -220,6 +344,21 @@
       color: var(--text-muted);
       font-weight: 600;
       border: 1px solid var(--border-color);
+    }
+
+    .badge.co-tag-co1 {
+      color: var(--badge-co1);
+      border-color: var(--badge-co1);
+    }
+
+    .badge.co-tag-co2 {
+      color: var(--badge-co2);
+      border-color: var(--badge-co2);
+    }
+
+    .badge.co-tag-co3 {
+      color: var(--badge-co3);
+      border-color: var(--badge-co3);
     }
 
     .question-title {
@@ -282,6 +421,33 @@
       font-size: 0.88rem;
       display: none;
       line-height: 1.55;
+    }
+
+    /* Result summary card */
+    .completion-banner {
+      display: none;
+      background: linear-gradient(135deg, var(--primary), #10b981);
+      color: #ffffff;
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    .completion-banner h3 {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .completion-banner p {
+      font-size: 1rem;
+      opacity: 0.95;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* Detailed View Styling */
@@ -398,6 +564,9 @@
       .detailed-container {
         padding: 1.25rem;
       }
+      .stats-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
   </style>
 </head>
@@ -417,15 +586,66 @@
 
   <div class="container">
     <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('co1', this)">CO-01 Quiz (10 MCQs)</button>
+      <button class="tab-btn highlight active" onclick="switchTab('all30', this)">🎯 Full 30 MCQ Mock Exam (All 3 Chapters)</button>
+      <button class="tab-btn" onclick="switchTab('co1', this)">CO-01 Quiz (10 MCQs)</button>
       <button class="tab-btn" onclick="switchTab('co2', this)">CO-02 Quiz (10 MCQs)</button>
       <button class="tab-btn" onclick="switchTab('co3', this)">CO-03 Quiz (10 MCQs)</button>
       <button class="tab-btn" onclick="switchTab('q4detailed', this)">Q4 Special 6M Detailed + Diagram</button>
       <button class="tab-btn" onclick="switchTab('all6m', this)">Other 6M Questions (CO-03)</button>
     </div>
 
+    <!-- FULL 30-MCQ PRACTICE TAB -->
+    <div id="all30" class="tab-content active">
+      <div class="grand-dashboard">
+        <div class="dashboard-top">
+          <div class="dashboard-title">
+            <h2>Grand MCQ Practice Exam (All 3 Chapters)</h2>
+            <p>Solve all 30 questions from CO-01, CO-02, and CO-03. Real-time evaluation and breakdown out of 30.</p>
+          </div>
+          <button class="reset-btn" onclick="resetAll30()">🔄 Reset Full Exam</button>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-pill main-score">
+            <div class="label">Total Score</div>
+            <div class="value" id="grand-score">0 / 30</div>
+          </div>
+          <div class="stat-pill">
+            <div class="label">Attempted</div>
+            <div class="value" id="grand-attempted">0 / 30</div>
+          </div>
+          <div class="stat-pill">
+            <div class="label">Accuracy</div>
+            <div class="value" id="grand-accuracy">0%</div>
+          </div>
+          <div class="stat-pill">
+            <div class="label">Target Pass</div>
+            <div class="value" style="color:var(--success);">12 / 30</div>
+          </div>
+        </div>
+
+        <div class="progress-bar-container" title="Progress Bar">
+          <div class="progress-fill" id="grand-progress-fill"></div>
+        </div>
+
+        <div class="chapter-tags">
+          <div class="chapter-tag">CO-01 (Q1 - Q10): <span id="co1-stat">0 / 10</span></div>
+          <div class="chapter-tag">CO-02 (Q11 - Q20): <span id="co2-stat">0 / 10</span></div>
+          <div class="chapter-tag">CO-03 (Q21 - Q30): <span id="co3-stat">0 / 10</span></div>
+        </div>
+      </div>
+
+      <!-- Completion Banner -->
+      <div class="completion-banner" id="grand-completion">
+        <h3 id="completion-title">🎉 Practice Exam Completed!</h3>
+        <p id="completion-text">You scored 0 out of 30.</p>
+      </div>
+
+      <div id="all30-questions"></div>
+    </div>
+
     <!-- CO-01 Tab -->
-    <div id="co1" class="tab-content active">
+    <div id="co1" class="tab-content">
       <div class="score-banner">
         <div><strong>CO-01: Introduction &amp; Fundamentals</strong></div>
         <div style="display:flex; align-items:center; gap: 1rem;">
@@ -1019,11 +1239,144 @@
       ]
     };
 
-    // State
+    // Combine all 30 questions into a flat list
+    const all30Data = [
+      ...quizData.co1.map((item, idx) => ({ ...item, globalIndex: idx + 1, coName: "CO-01", coClass: "co-tag-co1" })),
+      ...quizData.co2.map((item, idx) => ({ ...item, globalIndex: idx + 11, coName: "CO-02", coClass: "co-tag-co2" })),
+      ...quizData.co3.map((item, idx) => ({ ...item, globalIndex: idx + 21, coName: "CO-03", coClass: "co-tag-co3" }))
+    ];
+
+    // State for Individual Chapters
     const userScores = { co1: 0, co2: 0, co3: 0 };
     const answeredTracker = { co1: {}, co2: {}, co3: {} };
 
-    // Render Quizzes
+    // State for Full 30 MCQ Mock Exam
+    let grandAnswered = {};
+    let grandScore = 0;
+    let grandCoScores = { "CO-01": 0, "CO-02": 0, "CO-03": 0 };
+    let grandCoAnswered = { "CO-01": 0, "CO-02": 0, "CO-03": 0 };
+
+    // Render 30-MCQ Mock Exam
+    function renderGrandQuiz() {
+      const container = document.getElementById("all30-questions");
+      container.innerHTML = "";
+
+      all30Data.forEach((item, index) => {
+        const card = document.createElement("div");
+        card.className = "mcq-card";
+        card.id = `all30-q-${index}`;
+
+        card.innerHTML = `
+          <div class="mcq-header">
+            <div>
+              <span class="badge ${item.coClass}">${item.coName}</span>
+              <span class="badge" style="margin-left:0.35rem;">Question ${item.globalIndex} of 30</span>
+            </div>
+            <span class="badge">1 Mark</span>
+          </div>
+          <div class="question-title">${item.q}</div>
+          <div class="options-grid" id="all30-opts-${index}">
+            ${item.options
+              .map(
+                (opt, optIdx) => `
+              <button class="option-btn" onclick="checkGrandAnswer(${index}, ${optIdx})">
+                ${opt}
+              </button>
+            `
+              )
+              .join("")}
+          </div>
+          <div class="explanation-box" id="all30-exp-${index}">
+            <strong>Explanation:</strong> ${item.exp}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function checkGrandAnswer(index, selectedIdx) {
+      if (grandAnswered[index] !== undefined) return;
+
+      const item = all30Data[index];
+      const optContainer = document.getElementById(`all30-opts-${index}`);
+      const buttons = optContainer.querySelectorAll(".option-btn");
+      const expBox = document.getElementById(`all30-exp-${index}`);
+
+      grandAnswered[index] = selectedIdx;
+      grandCoAnswered[item.coName]++;
+
+      const isCorrect = selectedIdx === item.ans;
+
+      buttons.forEach((btn, idx) => {
+        btn.disabled = true;
+        if (idx === item.ans) {
+          btn.classList.add("correct");
+        }
+        if (idx === selectedIdx && !isCorrect) {
+          btn.classList.add("wrong");
+        }
+      });
+
+      if (isCorrect) {
+        grandScore++;
+        grandCoScores[item.coName]++;
+      }
+
+      expBox.style.display = "block";
+      updateGrandDashboard();
+    }
+
+    function updateGrandDashboard() {
+      const attemptedCount = Object.keys(grandAnswered).length;
+      const totalCount = all30Data.length;
+      const accuracy = attemptedCount > 0 ? Math.round((grandScore / attemptedCount) * 100) : 0;
+      const progressPercent = Math.round((attemptedCount / totalCount) * 100);
+
+      document.getElementById("grand-score").textContent = `${grandScore} / ${totalCount}`;
+      document.getElementById("grand-attempted").textContent = `${attemptedCount} / ${totalCount}`;
+      document.getElementById("grand-accuracy").textContent = `${accuracy}%`;
+      document.getElementById("grand-progress-fill").style.width = `${progressPercent}%`;
+
+      document.getElementById("co1-stat").textContent = `${grandCoScores["CO-01"]} / 10 (done: ${grandCoAnswered["CO-01"]}/10)`;
+      document.getElementById("co2-stat").textContent = `${grandCoScores["CO-02"]} / 10 (done: ${grandCoAnswered["CO-02"]}/10)`;
+      document.getElementById("co3-stat").textContent = `${grandCoScores["CO-03"]} / 10 (done: ${grandCoAnswered["CO-03"]}/10)`;
+
+      // If all 30 attempted, display completion banner
+      const banner = document.getElementById("grand-completion");
+      if (attemptedCount === totalCount) {
+        banner.style.display = "block";
+        const titleEl = document.getElementById("completion-title");
+        const textEl = document.getElementById("completion-text");
+
+        if (grandScore >= 25) {
+          titleEl.innerHTML = `🏆 Outstanding Mastery! Score: ${grandScore} / 30 (${Math.round((grandScore/30)*100)}%)`;
+          textEl.textContent = "You're exceptionally well prepared for the Design Thinking examination! Excellent work.";
+        } else if (grandScore >= 18) {
+          titleEl.innerHTML = `🎉 Great Performance! Score: ${grandScore} / 30 (${Math.round((grandScore/30)*100)}%)`;
+          textEl.textContent = "Solid score! Review any questions you missed to lock in full marks.";
+        } else if (grandScore >= 12) {
+          titleEl.innerHTML = `👍 Passed! Score: ${grandScore} / 30 (${Math.round((grandScore/30)*100)}%)`;
+          textEl.textContent = "You cleared the threshold. Revise the explanations below to improve your score.";
+        } else {
+          titleEl.innerHTML = `📚 Need Practice: Score: ${grandScore} / 30 (${Math.round((grandScore/30)*100)}%)`;
+          textEl.textContent = "Check the explanations and 6-mark notes, then try again.";
+        }
+      } else {
+        banner.style.display = "none";
+      }
+    }
+
+    function resetAll30() {
+      grandAnswered = {};
+      grandScore = 0;
+      grandCoScores = { "CO-01": 0, "CO-02": 0, "CO-03": 0 };
+      grandCoAnswered = { "CO-01": 0, "CO-02": 0, "CO-03": 0 };
+      updateGrandDashboard();
+      renderGrandQuiz();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // Render Individual Chapter Quizzes
     function renderQuiz(sectionKey) {
       const container = document.getElementById(`${sectionKey}-questions`);
       container.innerHTML = "";
@@ -1147,6 +1500,7 @@
     })();
 
     // Initialize all quiz sections
+    renderGrandQuiz();
     renderQuiz("co1");
     renderQuiz("co2");
     renderQuiz("co3");
