@@ -318,6 +318,32 @@
       border-color: var(--primary);
     }
 
+    .reveal-btn {
+      background: var(--code-bg);
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      padding: 0.45rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s ease;
+    }
+
+    .reveal-btn:hover {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .reveal-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary-hover);
+    }
+
     .mcq-card {
       background: var(--card-bg);
       border: 1px solid var(--border-color);
@@ -602,7 +628,10 @@
             <h2>Grand MCQ Practice Exam (All 3 Chapters)</h2>
             <p>Solve all 30 questions from CO-01, CO-02, and CO-03. Real-time evaluation and breakdown out of 30.</p>
           </div>
-          <button class="reset-btn" onclick="resetAll30()">🔄 Reset Full Exam</button>
+          <div style="display:flex; align-items:center; gap:0.6rem; flex-wrap:wrap;">
+            <button class="reveal-btn" id="grand-reveal-btn" onclick="toggleRevealAllGrand()">👁️ Show All Answers</button>
+            <button class="reset-btn" onclick="resetAll30()">🔄 Reset Full Exam</button>
+          </div>
         </div>
 
         <div class="stats-row">
@@ -648,8 +677,9 @@
     <div id="co1" class="tab-content">
       <div class="score-banner">
         <div><strong>CO-01: Introduction &amp; Fundamentals</strong></div>
-        <div style="display:flex; align-items:center; gap: 1rem;">
+        <div style="display:flex; align-items:center; gap: 0.6rem; flex-wrap:wrap;">
           <span class="score-badge" id="co1-score">Score: 0 / 10</span>
+          <button class="reveal-btn" id="co1-reveal-btn" onclick="toggleRevealSection('co1')">👁️ Show All Answers</button>
           <button class="reset-btn" onclick="resetQuiz('co1')">Reset</button>
         </div>
       </div>
@@ -660,8 +690,9 @@
     <div id="co2" class="tab-content">
       <div class="score-banner">
         <div><strong>CO-02: Empathy, Persona &amp; Journey Mapping</strong></div>
-        <div style="display:flex; align-items:center; gap: 1rem;">
+        <div style="display:flex; align-items:center; gap: 0.6rem; flex-wrap:wrap;">
           <span class="score-badge" id="co2-score">Score: 0 / 10</span>
+          <button class="reveal-btn" id="co2-reveal-btn" onclick="toggleRevealSection('co2')">👁️ Show All Answers</button>
           <button class="reset-btn" onclick="resetQuiz('co2')">Reset</button>
         </div>
       </div>
@@ -672,8 +703,9 @@
     <div id="co3" class="tab-content">
       <div class="score-banner">
         <div><strong>CO-03: Ideation, TRIZ &amp; Inventive Problem Solving</strong></div>
-        <div style="display:flex; align-items:center; gap: 1rem;">
+        <div style="display:flex; align-items:center; gap: 0.6rem; flex-wrap:wrap;">
           <span class="score-badge" id="co3-score">Score: 0 / 10</span>
+          <button class="reveal-btn" id="co3-reveal-btn" onclick="toggleRevealSection('co3')">👁️ Show All Answers</button>
           <button class="reset-btn" onclick="resetQuiz('co3')">Reset</button>
         </div>
       </div>
@@ -1366,11 +1398,141 @@
       }
     }
 
+    let isGrandRevealed = false;
+    const sectionRevealed = { co1: false, co2: false, co3: false };
+
+    function toggleRevealAllGrand() {
+      isGrandRevealed = !isGrandRevealed;
+      const btn = document.getElementById("grand-reveal-btn");
+
+      if (isGrandRevealed) {
+        if (btn) {
+          btn.innerHTML = "🙈 Hide All Answers";
+          btn.classList.add("active");
+        }
+
+        all30Data.forEach((item, index) => {
+          const optContainer = document.getElementById(`all30-opts-${index}`);
+          if (!optContainer) return;
+          const buttons = optContainer.querySelectorAll(".option-btn");
+          const expBox = document.getElementById(`all30-exp-${index}`);
+
+          buttons.forEach((b, idx) => {
+            b.disabled = true;
+            if (idx === item.ans) {
+              b.classList.add("correct");
+            }
+          });
+          if (expBox) expBox.style.display = "block";
+        });
+      } else {
+        if (btn) {
+          btn.innerHTML = "👁️ Show All Answers";
+          btn.classList.remove("active");
+        }
+
+        all30Data.forEach((item, index) => {
+          const optContainer = document.getElementById(`all30-opts-${index}`);
+          if (!optContainer) return;
+          const buttons = optContainer.querySelectorAll(".option-btn");
+          const expBox = document.getElementById(`all30-exp-${index}`);
+
+          const userChoice = grandAnswered[index];
+          if (userChoice === undefined) {
+            buttons.forEach(b => {
+              b.disabled = false;
+              b.classList.remove("correct", "wrong");
+            });
+            if (expBox) expBox.style.display = "none";
+          } else {
+            buttons.forEach((b, idx) => {
+              b.disabled = true;
+              b.classList.remove("correct", "wrong");
+              if (idx === item.ans) {
+                b.classList.add("correct");
+              }
+              if (idx === userChoice && userChoice !== item.ans) {
+                b.classList.add("wrong");
+              }
+            });
+            if (expBox) expBox.style.display = "block";
+          }
+        });
+      }
+    }
+
+    function toggleRevealSection(sectionKey) {
+      sectionRevealed[sectionKey] = !sectionRevealed[sectionKey];
+      const isRevealed = sectionRevealed[sectionKey];
+      const btn = document.getElementById(`${sectionKey}-reveal-btn`);
+
+      if (isRevealed) {
+        if (btn) {
+          btn.innerHTML = "🙈 Hide All Answers";
+          btn.classList.add("active");
+        }
+
+        quizData[sectionKey].forEach((item, index) => {
+          const optContainer = document.getElementById(`${sectionKey}-opts-${index}`);
+          if (!optContainer) return;
+          const buttons = optContainer.querySelectorAll(".option-btn");
+          const expBox = document.getElementById(`${sectionKey}-exp-${index}`);
+
+          buttons.forEach((b, idx) => {
+            b.disabled = true;
+            if (idx === item.ans) {
+              b.classList.add("correct");
+            }
+          });
+          if (expBox) expBox.style.display = "block";
+        });
+      } else {
+        if (btn) {
+          btn.innerHTML = "👁️ Show All Answers";
+          btn.classList.remove("active");
+        }
+
+        quizData[sectionKey].forEach((item, index) => {
+          const optContainer = document.getElementById(`${sectionKey}-opts-${index}`);
+          if (!optContainer) return;
+          const buttons = optContainer.querySelectorAll(".option-btn");
+          const expBox = document.getElementById(`${sectionKey}-exp-${index}`);
+
+          const userChoice = answeredTracker[sectionKey][index];
+          if (userChoice === undefined) {
+            buttons.forEach(b => {
+              b.disabled = false;
+              b.classList.remove("correct", "wrong");
+            });
+            if (expBox) expBox.style.display = "none";
+          } else {
+            buttons.forEach((b, idx) => {
+              b.disabled = true;
+              b.classList.remove("correct", "wrong");
+              if (idx === item.ans) {
+                b.classList.add("correct");
+              }
+              if (idx === userChoice && userChoice !== item.ans) {
+                b.classList.add("wrong");
+              }
+            });
+            if (expBox) expBox.style.display = "block";
+          }
+        });
+      }
+    }
+
     function resetAll30() {
       grandAnswered = {};
       grandScore = 0;
       grandCoScores = { "CO-01": 0, "CO-02": 0, "CO-03": 0 };
       grandCoAnswered = { "CO-01": 0, "CO-02": 0, "CO-03": 0 };
+      isGrandRevealed = false;
+      const revealBtn = document.getElementById("grand-reveal-btn");
+      if (revealBtn) {
+        revealBtn.innerHTML = "👁️ Show All Answers";
+        revealBtn.classList.remove("active");
+      }
       updateGrandDashboard();
       renderGrandQuiz();
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1441,6 +1603,12 @@
     function resetQuiz(sectionKey) {
       userScores[sectionKey] = 0;
       answeredTracker[sectionKey] = {};
+      sectionRevealed[sectionKey] = false;
+      const revealBtn = document.getElementById(`${sectionKey}-reveal-btn`);
+      if (revealBtn) {
+        revealBtn.innerHTML = "👁️ Show All Answers";
+        revealBtn.classList.remove("active");
+      }
       document.getElementById(`${sectionKey}-score`).textContent = `Score: 0 / ${quizData[sectionKey].length}`;
       renderQuiz(sectionKey);
     }
